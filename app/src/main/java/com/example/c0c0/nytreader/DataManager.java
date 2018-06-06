@@ -3,6 +3,7 @@ package com.example.c0c0.nytreader;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -48,7 +49,7 @@ public class DataManager {
                 (Request.Method.GET, url, null, onFetch, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, (error.getMessage() == null ? "API fetch request failure" : error.getMessage()));
                     }
                 });
 
@@ -72,14 +73,17 @@ public class DataManager {
                 String publishedDate = thisArticle.getString("published_date");
                 JSONArray multimedia = thisArticle.getJSONArray("multimedia");
 
-                Article thisArticleInformation = new Article(
+                Article thisArticleInformation = new Article(mCtx,
                     url, section, subsection, title, byline, _abstract, publishedDate, multimedia
                 );
 
                 mArticles.add(thisArticleInformation);
             }
         } catch ( JSONException e ) {
-            Log.e(TAG, e.getMessage());
+            Toast.makeText(mCtx
+                    , "There has been an error. Please contact the developer."
+                    , Toast.LENGTH_LONG).show();
+            Log.e(TAG, (e.getMessage() == null ? "loadArticleInformation" : e.getMessage()));
         }
     }
 

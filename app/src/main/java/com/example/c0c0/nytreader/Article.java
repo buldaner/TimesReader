@@ -1,8 +1,8 @@
 package com.example.c0c0.nytreader;
 
+import android.content.Context;
 import android.util.Log;
-
-import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +15,7 @@ import java.util.Date;
 public class Article {
     private final String TAG = this.getClass().getName();
 
-    private DataManager mDataManager;
+    private Context mCtx;
 
     private String mUrl;
     private String mSection;
@@ -31,9 +31,9 @@ public class Article {
     private String mPreviewImageUrl;
     private Document mDocument;
 
-    public Article(String mUrl, String mSection, String mSubsection, String mTitle
+    public Article(Context context, String mUrl, String mSection, String mSubsection, String mTitle
             , String mByline, String mAbstract, String mPublishedDate, JSONArray multimedia) {
-        this.mDataManager = DataManager.getInstance();
+        this.mCtx = context;
 
         this.mUrl = mUrl;
         this.mSection = mSection;
@@ -69,7 +69,10 @@ public class Article {
                     break;
                 }
             } catch (JSONException e) {
-                Log.e(TAG, e.getMessage());
+                Toast.makeText(mCtx
+                        , "There has been an error. Please contact the developer."
+                        , Toast.LENGTH_LONG).show();
+                Log.e(TAG, (e.getMessage() == null ? "setArticlePreviewUrl" : e.getMessage()));
             }
         }
     }

@@ -42,7 +42,7 @@ public class TTSManager {
                 } else {
                     Toast.makeText(context
                         , "Text-to-speech is not supported by your device."
-                        , Toast.LENGTH_SHORT).show();
+                        , Toast.LENGTH_LONG).show();
                 }
             }
         });

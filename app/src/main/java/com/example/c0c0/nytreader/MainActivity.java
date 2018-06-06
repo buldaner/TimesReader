@@ -1,5 +1,6 @@
 package com.example.c0c0.nytreader;
 
+import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.speech.tts.UtteranceProgressListener;
@@ -189,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
     private void playClick() {
         mPlayingItem = mViewPager.getCurrentItem();
         final Article currentArticle = mDataManager.getArticles().get(mPlayingItem);
+        final Context ctx = this.getApplicationContext();
         Document document = currentArticle.getDocument();
 
         //if we need to fetch the article text and parse it and so on, do that now
@@ -202,8 +204,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }, new Response.ErrorListener() {
                         @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, error.getMessage());
+                        public void onErrorResponse(VolleyError e) {
+                            Toast.makeText(ctx
+                                    , "There is a problem with the request. Please check" +
+                                            " your connection and try again after a few moments. If" +
+                                            " problems persist, contact the developer."
+                                    , Toast.LENGTH_LONG).show();
+                            Log.e(TAG, (e.getMessage() == null ? "playClick" : e.getMessage()));
                         }
                     });
 

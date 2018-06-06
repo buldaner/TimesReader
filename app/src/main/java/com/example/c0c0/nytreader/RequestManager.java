@@ -1,16 +1,10 @@
 package com.example.c0c0.nytreader;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.Image;
-import android.util.LruCache;
-import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.squareup.picasso.Picasso;
 
 public class RequestManager {
     private static RequestManager mInstance;
