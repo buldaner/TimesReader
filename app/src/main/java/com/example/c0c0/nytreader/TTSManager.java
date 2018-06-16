@@ -28,10 +28,6 @@ public class TTSManager {
         return mInstance;
     }
 
-    public static TTSManager getInstance() {
-        return mInstance;
-    }
-
     private TTSManager(final Context context, UtteranceProgressListener progressListener) {
         mCtx = context;
         mTextToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {

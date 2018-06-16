@@ -32,10 +32,6 @@ public class DataManager {
         return mInstance;
     }
 
-    public static DataManager getInstance() {
-        return mInstance;
-    }
-
     private DataManager(Context context) {
         mCtx = context;
         mArticles = new ArrayList();

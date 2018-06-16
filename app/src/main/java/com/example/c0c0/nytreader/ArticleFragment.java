@@ -1,6 +1,7 @@
 package com.example.c0c0.nytreader;
 
 import android.content.Intent;
+import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,35 +30,40 @@ public class ArticleFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        DataManager dataManager = DataManager.getInstance();
-        final Article article = dataManager.getArticles().get(getArguments().getInt(ARG_POSITION));
+        DataManager dataManager = DataManager.getInstance(getActivity().getApplicationContext());
 
-        TextView titleView = rootView.findViewById(R.id.text_title);
-        titleView.setText(article.getTitle());
+        int position = getArguments().getInt(ARG_POSITION);
+        //we may be pulling the data down again if it's been a while
+        if(dataManager.getArticles().size() > position) {
+            final Article article = dataManager.getArticles().get(getArguments().getInt(ARG_POSITION));
 
-        TextView bylineView = rootView.findViewById(R.id.text_byline);
-        bylineView.setText(article.getByline());
+            TextView titleView = rootView.findViewById(R.id.text_title);
+            titleView.setText(article.getTitle());
 
-        TextView publishedDateView = rootView.findViewById(R.id.text_published_date);
-        publishedDateView.setText(article.getPublishedDate());
+            TextView bylineView = rootView.findViewById(R.id.text_byline);
+            bylineView.setText(article.getByline());
 
-        TextView abstractView = rootView.findViewById(R.id.text_abstract);
-        abstractView.setText(article.getAbstract());
+            TextView publishedDateView = rootView.findViewById(R.id.text_published_date);
+            publishedDateView.setText(article.getPublishedDate());
 
-        ImageView previewImageView = rootView.findViewById(R.id.image_preview);
-        String previewImageUrl = article.getPreviewImageUrl();
+            TextView abstractView = rootView.findViewById(R.id.text_abstract);
+            abstractView.setText(article.getAbstract());
 
-        //tap on the image to load the article
-        previewImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getUrl()));
-                startActivity(browserIntent);
+            ImageView previewImageView = rootView.findViewById(R.id.image_preview);
+            String previewImageUrl = article.getPreviewImageUrl();
+
+            //tap on the image to load the article
+            previewImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getUrl()));
+                    startActivity(browserIntent);
+                }
+            });
+
+            if(previewImageUrl != null) {
+                dataManager.loadImage(previewImageUrl, previewImageView);
             }
-        });
-
-        if(previewImageUrl != null) {
-            dataManager.loadImage(previewImageUrl, previewImageView);
         }
 
         return rootView;

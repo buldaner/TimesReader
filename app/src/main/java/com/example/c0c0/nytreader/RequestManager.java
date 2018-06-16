@@ -18,10 +18,6 @@ public class RequestManager {
         return mInstance;
     }
 
-    public static RequestManager getInstance() {
-        return mInstance;
-    }
-
     private RequestManager(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
