@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">NYTReader</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="app_name">TimesReader</string>
+    <string name="action_settings">Speech Settings</string>
+    <string name="action_american_voice">American Voice</string>
+    <string name="action_indian_voice">Indian Voice</string>
+    <string name="action_uk_voice">UK Voice</string>
 </resources>

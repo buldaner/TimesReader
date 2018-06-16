@@ -2,6 +2,7 @@ package com.example.c0c0.nytreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,6 +33,7 @@ import org.jsoup.nodes.Document;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getName();
+    private final String API_URL = "http://developer.nytimes.com";
 
     private Toolbar mToolbar;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -44,11 +47,24 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mNextButton;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mPlayingItem;
+    private ImageView mApiImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //get api branding image
+        mApiImage = findViewById(R.id.image_api);
+
+        //per api ToS...
+        mApiImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(API_URL));
+                startActivity(browserIntent);
+            }
+        });
 
         //get toolbar
         mToolbar = findViewById(R.id.toolbar_main);

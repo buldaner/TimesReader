@@ -92,4 +92,12 @@
         app:layout_anchor="@id/container"
         app:layout_anchorGravity="bottom|right" />
 
+    <ImageView
+        android:id="@+id/image_api"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/container"
+        app:layout_anchorGravity="bottom|left"
+        app:srcCompat="@drawable/poweredby_nytimes" />
+
 </android.support.design.widget.CoordinatorLayout>

@@ -88,6 +88,9 @@ public class DataManager {
     }
 
     public void loadImage(String url, ImageView view) {
-        Picasso.get().load(url).fit().centerCrop().into(view);
+        Picasso.get().load(url)
+                .placeholder(R.color.colorPrimaryDark)
+                .error(R.color.colorPrimaryDark)
+                .fit().centerCrop().into(view);
     }
 }

@@ -34,7 +34,7 @@ public class TTSManager {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS) {
-                    mTextToSpeech.setLanguage(Locale.UK);
+                    mTextToSpeech.setLanguage(Locale.ENGLISH);
                 } else {
                     Toast.makeText(context
                         , "Text-to-speech is not supported by your device."
