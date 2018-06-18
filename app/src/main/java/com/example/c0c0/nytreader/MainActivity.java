@@ -128,16 +128,7 @@ public class MainActivity extends AppCompatActivity {
         mDataManager = DataManager.getInstance(getApplicationContext());
 
         //fetch articles
-        mDataManager.fetchArticleInformation(
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    mDataManager.loadArticleInformation(response);
-                    mSectionsPagerAdapter.notifyDataSetChanged();
-                    setToolbarTextFromPosition(0);
-                }
-            }
-        );
+        refreshArticles();
 
         //get pager from layout
         mViewPager = findViewById(R.id.container);
@@ -184,7 +175,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(utteranceId.equals("articleComplete")) {
-                            nextClick();
+                            mViewPager.setCurrentItem(mPlayingItem);
+                            if(nextClick()) {
+                                playClick();
+                            }
                         }
                     }
                 });
@@ -249,19 +243,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void previousClick() {
-        if(mPlayingItem - 1 >= 0) {
-            mViewPager.setCurrentItem(mPlayingItem - 1);
-            stopClick();
-            playClick();
+        int currentItem = mViewPager.getCurrentItem();
+        if(currentItem - 1 >= 0) {
+            mViewPager.setCurrentItem(currentItem - 1);
         }
     }
 
-    private void nextClick() {
-        if(mPlayingItem + 1 <= mDataManager.getArticles().size() - 1) {
-            mViewPager.setCurrentItem(mPlayingItem + 1);
-            stopClick();
-            playClick();
+    private boolean nextClick() {
+        int currentItem = mViewPager.getCurrentItem();
+        boolean success = false;
+
+        if(currentItem + 1 < mDataManager.getArticles().size()) {
+            mViewPager.setCurrentItem(currentItem + 1);
+            success = true;
         }
+
+        return success;
     }
 
     private void refreshArticles() {
@@ -274,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
                         mSectionsPagerAdapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                         mViewPager.setCurrentItem(0);
+                        setToolbarTextFromPosition(0);
                     }
                 }
         );

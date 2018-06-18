@@ -33,6 +33,7 @@ public class ArticleFragment extends Fragment {
         DataManager dataManager = DataManager.getInstance(getActivity().getApplicationContext());
 
         int position = getArguments().getInt(ARG_POSITION);
+
         //we may be pulling the data down again if it's been a while
         if(dataManager.getArticles().size() > position) {
             final Article article = dataManager.getArticles().get(getArguments().getInt(ARG_POSITION));
