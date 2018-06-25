@@ -4,4 +4,7 @@
     <string name="action_american_voice">American Voice</string>
     <string name="action_indian_voice">Indian Voice</string>
     <string name="action_uk_voice">UK Voice</string>
+    <string name="action_australian_voice">Australian Voice</string>
+    <string name="setting_voice_locale">setting_voice_locale</string>
+    <string name="preference_file_key">coco.timesReader</string>
 </resources>

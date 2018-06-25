@@ -35,7 +35,7 @@ public class ArticleFragment extends Fragment {
         int position = getArguments().getInt(ARG_POSITION);
 
         //we may be pulling the data down again if it's been a while
-        if(dataManager.getArticles().size() > position) {
+        if(dataManager.getArticles().size() > 0) {
             final Article article = dataManager.getArticles().get(getArguments().getInt(ARG_POSITION));
 
             TextView titleView = rootView.findViewById(R.id.text_title);

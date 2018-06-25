@@ -22,4 +22,9 @@
         android:orderInCategory="400"
         android:title="@string/action_uk_voice"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_australian_voice"
+        android:orderInCategory="500"
+        android:title="@string/action_australian_voice"
+        app:showAsAction="never" />
 </menu>

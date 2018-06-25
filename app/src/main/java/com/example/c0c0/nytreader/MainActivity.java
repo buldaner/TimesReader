@@ -2,7 +2,9 @@ package com.example.c0c0.nytreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.design.widget.FloatingActionButton;
@@ -48,11 +50,18 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mPlayingItem;
     private ImageView mApiImage;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mPrefEditor;
+    private int mRequestAttempts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mSharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        mPrefEditor = mSharedPreferences.edit();
+        mRequestAttempts = 0;
 
         //get api branding image
         mApiImage = findViewById(R.id.image_api);
@@ -209,18 +218,25 @@ public class MainActivity extends AppCompatActivity {
                     (Request.Method.GET, currentArticle.getUrl(), new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            mRequestAttempts = 0;
                             currentArticle.setDocument(Jsoup.parse(response));
                             mTTSManager.playDocument(currentArticle);
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError e) {
-                            Toast.makeText(ctx
-                                    , "There is a problem with the request. Please check" +
-                                            " your connection and try again after a few moments. If" +
-                                            " problems persist, contact the developer."
-                                    , Toast.LENGTH_LONG).show();
-                            Log.e(TAG, (e.getMessage() == null ? "playClick" : e.getMessage()));
+                            if(mRequestAttempts < 5) {
+                                mRequestAttempts++;
+                                SystemClock.sleep(2000);
+                                playClick();
+                            } else {
+                                Toast.makeText(ctx
+                                        , "There is a problem with the request. Please check" +
+                                                " your connection and try again after a few moments. If" +
+                                                " problems persist, contact the developer."
+                                        , Toast.LENGTH_LONG).show();
+                                Log.e(TAG, (e.getMessage() == null ? "playClick" : e.getMessage()));
+                            }
                         }
                     });
 
@@ -291,12 +307,41 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(Settings.ACTION_SETTINGS));
-            Toast.makeText(getApplicationContext()
-                    , "Language and Input -> Text-to-Speech"
-                    , Toast.LENGTH_SHORT).show();
-            return true;
+        switch(id) {
+            case R.id.action_settings:
+                startActivity(new Intent(Settings.ACTION_SETTINGS));
+                Toast.makeText(getApplicationContext()
+                        , "Language and Input -> Text-to-Speech"
+                        , Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_american_voice:
+                mPrefEditor.putString(getString(R.string.setting_voice_locale), "US");
+                Toast.makeText(getApplicationContext()
+                        , "Voice set to US"
+                        , Toast.LENGTH_SHORT).show();
+                mPrefEditor.commit();
+                break;
+            case R.id.action_uk_voice:
+                mPrefEditor.putString(getString(R.string.setting_voice_locale), "UK");
+                Toast.makeText(getApplicationContext()
+                        , "Voice set to UK"
+                        , Toast.LENGTH_SHORT).show();
+                mPrefEditor.commit();
+                break;
+            case R.id.action_indian_voice:
+                mPrefEditor.putString(getString(R.string.setting_voice_locale), "IN");
+                Toast.makeText(getApplicationContext()
+                        , "Voice set to India"
+                        , Toast.LENGTH_SHORT).show();
+                mPrefEditor.commit();
+                break;
+            case R.id.action_australian_voice:
+                mPrefEditor.putString(getString(R.string.setting_voice_locale), "AU");
+                Toast.makeText(getApplicationContext()
+                        , "Voice set to Australia"
+                        , Toast.LENGTH_SHORT).show();
+                mPrefEditor.commit();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

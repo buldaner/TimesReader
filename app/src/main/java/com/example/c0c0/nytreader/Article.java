@@ -41,7 +41,7 @@ public class Article {
         this.mTitle = mTitle;
         this.mByline = mByline;
         this.mAbstract = mAbstract;
-        this.mDateParser = new SimpleDateFormat("yyyy-mm-dd");
+        this.mDateParser = new SimpleDateFormat("yyyy-MM-dd");
         this.mDateFormatter = new SimpleDateFormat("MMMM d, yyyy");
         this.mMultimedia = multimedia;
 
