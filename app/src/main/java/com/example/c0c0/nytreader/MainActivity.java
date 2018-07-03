@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         mRequestManager = RequestManager.getInstance(getApplicationContext());
 
         //create text-to-speech manager
-        mTTSManager = TTSManager.getInstance(getApplicationContext(), getProgressListener());
+        mTTSManager = TTSManager.getInstance(getApplicationContext(), getProgressListener(), true);
 
         //create viewpager adapter
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

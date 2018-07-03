@@ -29,6 +29,14 @@ public class TTSManager {
         return mInstance;
     }
 
+    public static TTSManager getInstance(Context context
+        , UtteranceProgressListener progressListener, boolean forceNew) {
+        if(mInstance == null || forceNew) {
+            mInstance = new TTSManager(context, progressListener);
+        }
+        return mInstance;
+    }
+
     private TTSManager(final Context context, UtteranceProgressListener progressListener) {
         mCtx = context;
         mSharedPreferences = mCtx.getSharedPreferences(mCtx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
