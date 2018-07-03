@@ -1,7 +1,6 @@
 package com.example.c0c0.nytreader;
 
 import android.content.Intent;
-import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,8 +30,6 @@ public class ArticleFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         DataManager dataManager = DataManager.getInstance(getActivity().getApplicationContext());
-
-        int position = getArguments().getInt(ARG_POSITION);
 
         //we may be pulling the data down again if it's been a while
         if(dataManager.getArticles().size() > 0) {

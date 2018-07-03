@@ -2,7 +2,6 @@ package com.example.c0c0.nytreader;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -36,6 +35,7 @@ import org.jsoup.nodes.Document;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getName();
     private final String API_URL = "http://developer.nytimes.com";
+    private final int REQUEST_SLEEP = 5000;
 
     private Toolbar mToolbar;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -48,10 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mPrevButton;
     private FloatingActionButton mNextButton;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private int mPlayingItem;
     private ImageView mApiImage;
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mPrefEditor;
+    private SharedPreferencesManager mPrefManager;
     private int mRequestAttempts;
 
     @Override
@@ -59,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        mPrefEditor = mSharedPreferences.edit();
+        //get preference manager
+        mPrefManager = SharedPreferencesManager.getInstance(getApplicationContext());
         mRequestAttempts = 0;
 
         //get api branding image
@@ -184,7 +182,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(utteranceId.equals("articleComplete")) {
-                            mViewPager.setCurrentItem(mPlayingItem);
+                            mViewPager.setCurrentItem(
+                                    mPrefManager.getInt(getString(R.string.var_playing_item))
+                            );
                             if(nextClick()) {
                                 playClick();
                             }
@@ -207,8 +207,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void playClick() {
-        mPlayingItem = mViewPager.getCurrentItem();
-        final Article currentArticle = mDataManager.getArticles().get(mPlayingItem);
+        final int playingItem = mViewPager.getCurrentItem();
+        final Article currentArticle = mDataManager.getArticles().get(playingItem);
         final Context ctx = this.getApplicationContext();
         Document document = currentArticle.getDocument();
 
@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                     (Request.Method.GET, currentArticle.getUrl(), new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            mPrefManager.putInt(getString(R.string.var_playing_item), playingItem);
                             mRequestAttempts = 0;
                             currentArticle.setDocument(Jsoup.parse(response));
                             mTTSManager.playDocument(currentArticle);
@@ -227,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError e) {
                             if(mRequestAttempts < 5) {
                                 mRequestAttempts++;
-                                SystemClock.sleep(2000);
+                                SystemClock.sleep( REQUEST_SLEEP );
                                 playClick();
                             } else {
                                 Toast.makeText(ctx
@@ -286,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
                         mDataManager.loadArticleInformation(response);
                         mSectionsPagerAdapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
+                        mPrefManager.putInt(getString(R.string.var_playing_item), 0);
                         mViewPager.setCurrentItem(0);
                         setToolbarTextFromPosition(0);
                     }
@@ -315,32 +317,28 @@ public class MainActivity extends AppCompatActivity {
                         , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_american_voice:
-                mPrefEditor.putString(getString(R.string.setting_voice_locale), "US");
+                mPrefManager.putString(getString(R.string.setting_voice_locale), "US");
                 Toast.makeText(getApplicationContext()
                         , "Voice set to US"
                         , Toast.LENGTH_SHORT).show();
-                mPrefEditor.commit();
                 break;
             case R.id.action_uk_voice:
-                mPrefEditor.putString(getString(R.string.setting_voice_locale), "UK");
+                mPrefManager.putString(getString(R.string.setting_voice_locale), "UK");
                 Toast.makeText(getApplicationContext()
                         , "Voice set to UK"
                         , Toast.LENGTH_SHORT).show();
-                mPrefEditor.commit();
                 break;
             case R.id.action_indian_voice:
-                mPrefEditor.putString(getString(R.string.setting_voice_locale), "IN");
+                mPrefManager.putString(getString(R.string.setting_voice_locale), "IN");
                 Toast.makeText(getApplicationContext()
                         , "Voice set to India"
                         , Toast.LENGTH_SHORT).show();
-                mPrefEditor.commit();
                 break;
             case R.id.action_australian_voice:
-                mPrefEditor.putString(getString(R.string.setting_voice_locale), "AU");
+                mPrefManager.putString(getString(R.string.setting_voice_locale), "AU");
                 Toast.makeText(getApplicationContext()
                         , "Voice set to Australia"
                         , Toast.LENGTH_SHORT).show();
-                mPrefEditor.commit();
                 break;
         }
 

@@ -87,7 +87,7 @@ public class TTSManager {
                 , null
                 , "speakArticle");
 
-        for (Element node : nodes) {
+        /*for (Element node : nodes) {
             String text = node.text()
                     .replaceAll("(?i)MR\\.", "MR")
                     .replaceAll("(?i)MS\\.", "MISS")
@@ -99,7 +99,7 @@ public class TTSManager {
                     , TextToSpeech.QUEUE_ADD
                     , null
                     , "speakArticle");
-        }
+        }*/
 
         mTextToSpeech.speak(""
                 , TextToSpeech.QUEUE_ADD

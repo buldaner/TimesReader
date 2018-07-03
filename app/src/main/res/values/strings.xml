@@ -7,4 +7,5 @@
     <string name="action_australian_voice">Australian Voice</string>
     <string name="setting_voice_locale">setting_voice_locale</string>
     <string name="preference_file_key">coco.timesReader</string>
+    <string name="var_playing_item">var_playing_item</string>
 </resources>
