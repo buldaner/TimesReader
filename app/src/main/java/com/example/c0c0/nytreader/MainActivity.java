@@ -36,7 +36,9 @@ import org.jsoup.nodes.Document;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getName();
     private final String API_URL = "http://developer.nytimes.com";
-    private final int REQUEST_SLEEP = 5000;
+    private final int REQUEST_SLEEP = 2000;
+    private final int MAX_REQUEST_ATTEMPTS = 30;
+
 
     private Toolbar mToolbar;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -227,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError e) {
-                            if(mRequestAttempts < 5) {
+                            if(mRequestAttempts < MAX_REQUEST_ATTEMPTS ) {
                                 mRequestAttempts++;
                                 SystemClock.sleep( REQUEST_SLEEP );
                                 playClick();

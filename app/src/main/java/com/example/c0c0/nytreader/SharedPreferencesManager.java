@@ -33,6 +33,10 @@ public class SharedPreferencesManager {
         return mPref.getString(key, "");
     }
 
+    public String getString(String key, String def) {
+        return mPref.getString(key, def);
+    }
+
     public void putInt(String key, int value) {
         mEditor.putInt(key, value);
         mEditor.commit();
@@ -40,5 +44,9 @@ public class SharedPreferencesManager {
 
     public int getInt(String key) {
         return mPref.getInt(key, 0);
+    }
+
+    public int getInt(String key, int def) {
+        return mPref.getInt(key, def);
     }
 }

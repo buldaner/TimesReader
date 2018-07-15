@@ -1,9 +1,11 @@
 package com.example.c0c0.nytreader;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,18 +52,36 @@ public class ArticleFragment extends Fragment {
             ImageView previewImageView = rootView.findViewById(R.id.image_preview);
             String previewImageUrl = article.getPreviewImageUrl();
 
+            if(previewImageUrl != null) {
+                dataManager.loadImage(previewImageUrl, previewImageView);
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(true);
+            builder.setTitle("Open article?");
+            builder.setPositiveButton("Confirm",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getUrl()));
+                            startActivity(browserIntent);
+                        }
+                    });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+            final AlertDialog dialog = builder.create();
+
             //tap on the image to load the article
             previewImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getUrl()));
-                    startActivity(browserIntent);
+                    dialog.show();
                 }
             });
-
-            if(previewImageUrl != null) {
-                dataManager.loadImage(previewImageUrl, previewImageView);
-            }
         }
 
         return rootView;

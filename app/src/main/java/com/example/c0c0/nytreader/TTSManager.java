@@ -19,7 +19,7 @@ public class TTSManager {
     private static TTSManager mInstance;
     private Context mCtx;
     private TextToSpeech mTextToSpeech;
-    private SharedPreferences mSharedPreferences;
+    private SharedPreferencesManager mPref;
 
     public static TTSManager getInstance(Context context
             , UtteranceProgressListener progressListener) {
@@ -39,7 +39,7 @@ public class TTSManager {
 
     private TTSManager(final Context context, UtteranceProgressListener progressListener) {
         mCtx = context;
-        mSharedPreferences = mCtx.getSharedPreferences(mCtx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        mPref = SharedPreferencesManager.getInstance(context);
 
         mTextToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
@@ -56,7 +56,7 @@ public class TTSManager {
     }
 
     private void setLocale() {
-        String locale = mSharedPreferences.getString(mCtx.getString(R.string.setting_voice_locale), "US");
+        String locale = mPref.getString(mCtx.getString(R.string.setting_voice_locale), "US");
 
         switch(locale) {
             case "US":
@@ -95,7 +95,7 @@ public class TTSManager {
                 , null
                 , "speakArticle");
 
-        /*for (Element node : nodes) {
+        for (Element node : nodes) {
             String text = node.text()
                     .replaceAll("(?i)MR\\.", "MR")
                     .replaceAll("(?i)MS\\.", "MISS")
@@ -107,7 +107,7 @@ public class TTSManager {
                     , TextToSpeech.QUEUE_ADD
                     , null
                     , "speakArticle");
-        }*/
+        }
 
         mTextToSpeech.speak(""
                 , TextToSpeech.QUEUE_ADD
