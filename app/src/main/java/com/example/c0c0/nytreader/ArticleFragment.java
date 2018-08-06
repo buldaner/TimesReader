@@ -58,8 +58,8 @@ public class ArticleFragment extends Fragment {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setCancelable(true);
-            builder.setTitle("Open article?");
-            builder.setPositiveButton("Confirm",
+            builder.setTitle("View article?");
+            builder.setPositiveButton("View",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
