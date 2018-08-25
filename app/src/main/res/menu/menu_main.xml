@@ -3,28 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.c0c0.nytreader.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_about"
         android:orderInCategory="100"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="200"
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_american_voice"
-        android:orderInCategory="200"
+        android:orderInCategory="300"
         android:title="@string/action_american_voice"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_indian_voice"
-        android:orderInCategory="300"
+        android:orderInCategory="400"
         android:title="@string/action_indian_voice"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_uk_voice"
-        android:orderInCategory="400"
+        android:orderInCategory="500"
         android:title="@string/action_uk_voice"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_australian_voice"
-        android:orderInCategory="500"
+        android:orderInCategory="600"
         android:title="@string/action_australian_voice"
         app:showAsAction="never" />
 </menu>

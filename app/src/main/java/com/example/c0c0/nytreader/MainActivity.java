@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private final String API_URL = "http://developer.nytimes.com";
     private final int REQUEST_SLEEP = 2000;
     private final int MAX_REQUEST_ATTEMPTS = 30;
-
 
     private Toolbar mToolbar;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -62,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
         //get preference manager
         mPrefManager = SharedPreferencesManager.getInstance(getApplicationContext());
+
+        //run onboarding activity if it's a new install
+        if (mPrefManager.getInt(getString(R.string.setting_onboarding_complete), 0) == 0) {
+            startActivity(new Intent(this, OnboardingActivity.class));
+        }
+
         mRequestAttempts = 0;
 
         //get api branding image
@@ -313,6 +317,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch(id) {
+            case R.id.action_about:
+                startActivity(new Intent(this, OnboardingActivity.class));
+                break;
             case R.id.action_settings:
                 startActivity(new Intent(Settings.ACTION_SETTINGS));
                 Toast.makeText(getApplicationContext()
