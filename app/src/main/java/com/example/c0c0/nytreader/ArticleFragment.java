@@ -2,6 +2,7 @@ package com.example.c0c0.nytreader;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +31,8 @@ public class ArticleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_article, container, false);
-
+        Drawable noMediaImage = getActivity().getDrawable(R.drawable.icons8_voice_64_mod_nomedia);
+        noMediaImage.setAlpha(25);
         DataManager dataManager = DataManager.getInstance(getActivity().getApplicationContext());
 
         //we may be pulling the data down again if it's been a while
@@ -54,6 +56,8 @@ public class ArticleFragment extends Fragment {
 
             if(previewImageUrl != null) {
                 dataManager.loadImage(previewImageUrl, previewImageView);
+            } else {
+                previewImageView.setImageDrawable(noMediaImage);
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
