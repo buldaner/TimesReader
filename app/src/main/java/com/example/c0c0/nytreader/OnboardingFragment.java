@@ -64,7 +64,7 @@ public class OnboardingFragment extends OnboardingSupportFragment{
     @Nullable
     @Override
     protected View onCreateContentView(LayoutInflater inflater, ViewGroup container) {
-        mContentView = inflater.inflate(R.layout.text_onboarding, container, false);
+        mContentView = inflater.inflate(R.layout.activity_onboarding, container, false);
         return mContentView;
     }
 
@@ -76,7 +76,7 @@ public class OnboardingFragment extends OnboardingSupportFragment{
 
     @Override
     protected void onPageChanged(final int newPage, int previousPage) {
-        TextView text = getActivity().findViewById(R.id.text_onboarding);
+        TextView text = getActivity().findViewById(R.id.fragment_onboarding);
         text.setText(content[newPage]);
     }
 

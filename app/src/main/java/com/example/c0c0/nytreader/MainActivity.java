@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         mPrefManager = SharedPreferencesManager.getInstance(getApplicationContext());
 
         //run onboarding activity if it's a new install
-        if (mPrefManager.getInt(getString(R.string.setting_onboarding_complete), 0) == 0) {
+        /*if (mPrefManager.getInt(getString(R.string.setting_onboarding_complete), 0) == 0) {
             startActivity(new Intent(this, OnboardingActivity.class));
-        }
+        }*/
 
         mRequestAttempts = 0;
 
@@ -317,9 +317,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch(id) {
-            case R.id.action_about:
+            /*case R.id.action_about:
                 startActivity(new Intent(this, OnboardingActivity.class));
-                break;
+                break;*/
             case R.id.action_settings:
                 startActivity(new Intent(Settings.ACTION_SETTINGS));
                 Toast.makeText(getApplicationContext()

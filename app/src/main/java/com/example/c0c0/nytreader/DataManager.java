@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DataManager {
-    private final String BASE_API = "https://probable-maker-212500.appspot.com";
+    private final String BASE_API = "https://api.nytimes.com/svc/topstories/v2/home.json";
     private final String TAG = this.getClass().getName();
 
     private static DataManager mInstance;
@@ -39,7 +39,7 @@ public class DataManager {
 
     public void fetchArticleInformation(Response.Listener<JSONObject> onFetch) {
         //initialize request object
-        String url = BASE_API;
+        String url = BASE_API + "";
 
         JsonObjectRequest articleRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, onFetch, new Response.ErrorListener() {

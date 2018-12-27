@@ -20,7 +20,7 @@ public class SharedPreferencesManager {
     private SharedPreferencesManager(Context context) {
         mCtx = context;
         mPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                context.getString(R.string.var_preference_file_key), Context.MODE_PRIVATE);
         mEditor = mPref.edit();
     }
 
